@@ -14,6 +14,8 @@ import { useDispatch, useSelector } from "react-redux"
 import { clearTweet, fetchTweet } from "../../../store/ducks/tweet/actionCreators"
 import { selectTweet, selectTweetIsLoading } from "../../../store/ducks/tweet/selectors"
 import CircularProgress from "@material-ui/core/CircularProgress"
+import format from 'date-fns/format'
+import ruLang from 'date-fns/locale/ru'
 
 
 interface PropsType {
@@ -27,7 +29,6 @@ export const FullTweet: React.FC<PropsType> = ({ classes }): React.ReactElement 
     const isLoading = useSelector(selectTweetIsLoading)
 
     const id: string = params.id!
-
     React.useEffect(() => {
         dispatch(fetchTweet(id))
 
@@ -46,8 +47,7 @@ export const FullTweet: React.FC<PropsType> = ({ classes }): React.ReactElement 
 
             <div>
                 <Avatar alt="User avatar"
-                    className={classes.tweetAvatar} 
-                    src={tweet.user.avatarUrl} />
+                    className={classes.tweetAvatar}  />
                 
             </div>
             <div style={{ marginTop: '-3px' }}>
@@ -55,7 +55,7 @@ export const FullTweet: React.FC<PropsType> = ({ classes }): React.ReactElement 
                     <b>{tweet.user.fullName}</b>&nbsp;
                     <span className={classes.tweetUserName}>{tweet.user.shortName}</span>&nbsp;
                     <span className={classes.tweetUserName}>·</span>&nbsp;
-                    <span className={classes.tweetUserName}>1 ч</span>
+                    <span className={classes.tweetUserName}>{format(new Date(tweet.createdAt), 'Pp', { locale: ruLang })}</span>
                 </Typography>
                 <Typography variant='body1' gutterBottom>
                     {tweet.text}

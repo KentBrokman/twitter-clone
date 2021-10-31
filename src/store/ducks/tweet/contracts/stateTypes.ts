@@ -4,6 +4,7 @@ export interface TweetType {
     id?: number,
     _id: string,
     text: string,
+    createdAt: string,
     user: {
         fullName: string,
         shortName: string,

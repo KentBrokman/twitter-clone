@@ -2,7 +2,7 @@ import { Action } from "redux";
 import { LoadingState } from "../../types";
 import { FetchTweetsActionType, SetLoadingStatusActionType, 
     SetTweetsActionType, TweetsActionsType, 
-    AddNewTweetActionType, SetNewTweetActionType } from "./contracts/actionTypes";
+    AddNewTweetActionType, SetNewTweetActionType, SetNewTweetLoadingActionType } from "./contracts/actionTypes";
 import { TweetType, TweetsState } from "./contracts/stateTypes";
 
 
@@ -25,6 +25,9 @@ export const addNewTweet = (payload: string): AddNewTweetActionType => ({
 export const setNewTweet = (payload: TweetType): SetNewTweetActionType => ({
     type: TweetsActionsType.SET_NEW_TWEET,
     payload
+})
+export const setNewTweetLoading = (): SetNewTweetLoadingActionType => ({
+    type: TweetsActionsType.SET_NEW_TWEET_LOADING
 })
 
 

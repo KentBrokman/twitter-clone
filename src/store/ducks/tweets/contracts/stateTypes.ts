@@ -4,6 +4,7 @@ export interface TweetType {
     id?: number,
     _id: string,
     text: string,
+    createdAt: string,
     user: {
         fullName: string,
         shortName: string,
@@ -13,4 +14,5 @@ export interface TweetType {
 export interface TweetsState {
     items: TweetType[],
     loadingState: LoadingState,
+    newTweetLoadingState: LoadingState
 }

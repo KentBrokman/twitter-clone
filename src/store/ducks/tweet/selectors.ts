@@ -4,7 +4,6 @@ import { LoadingState } from "../../types";
 
 
 export const selectTweet = (state: AppStateType) => {
-    
     return state.tweet.tweet
 }
 

@@ -1,7 +1,7 @@
 import { TweetsActionsType, AddNewTweetActionType } from "./contracts/actionTypes"
 import { all, call, CallEffect, put, SagaReturnType, StrictEffect, takeEvery, takeLatest } from "redux-saga/effects"
 import { TweetsApi } from "../../../services/tweetsApi"
-import { setNewTweet, setTweets, setTweetsLoadingStatus } from "./actionCreators"
+import { setNewTweet, setTweets, setTweetsLoadingStatus, setNewTweetLoading } from "./actionCreators"
 import { TweetsState } from "./contracts/stateTypes"
 import { LoadingState } from "../../types"
 // import {AddNewTweetActionType} from "./"
@@ -15,12 +15,14 @@ export function* fetchTweetsRequest() {
         const items : FetchTweetsReturnType = yield call(TweetsApi.fetchTweets)
         yield put(setTweets(items))
     } catch (error) {
+        yield console.log(error)
         yield put(setTweetsLoadingStatus(LoadingState.ERROR))
     }
 }
 
 export function* addNewTweet({payload}: AddNewTweetActionType) {
     try {
+        yield put(setNewTweetLoading())
         const newTweet: AddNewTweetReturnType = yield call(TweetsApi.addNewTweet, payload)
         if (newTweet === null) throw ("Some error")
         yield put(setNewTweet(newTweet))

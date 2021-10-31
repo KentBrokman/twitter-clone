@@ -122,6 +122,10 @@ export const useHomeStyles = makeStyles((theme: Theme) => ({
     tweetUserName: {
         color: grey[500]
     },
+    tweetHeader: {
+        display: 'flex',
+        justifyContent: 'space-between'
+    },
     tweetFooter: {
         width: 460,
         position: 'relative',

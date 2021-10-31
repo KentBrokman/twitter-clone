@@ -23,8 +23,9 @@ import { useState } from 'react';
 import { throws } from 'assert';
 import { CircularProgressWithLabel } from './CirculeWithProgress';
 import { useHomeStyles } from '../pages/Home/HomeStyles';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addNewTweet } from '../store/ducks/tweets/actionCreators';
+import { selectNewTweetIsLoading } from '../store/ducks/tweets/selectors';
 
 
 interface AddTweetFormProps {
@@ -36,6 +37,7 @@ const MAX_LENGTH = 280
 
 export const AddTweetForm: React.FC<AddTweetFormProps> = ({ classes, maxRows }) => {
     const dispatch = useDispatch()
+    const newTweetIsLoading = useSelector(selectNewTweetIsLoading)
 
     const [text, setText] = useState<string>('')
     const textLimitPercent = (text.length / MAX_LENGTH) * 100
@@ -49,6 +51,7 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ classes, maxRows }) 
     }
     const handleOnSendTweetClick = () => {
         dispatch(addNewTweet(text))
+        setText('')
     }
     return (
         <div>
@@ -91,10 +94,13 @@ export const AddTweetForm: React.FC<AddTweetFormProps> = ({ classes, maxRows }) 
                             />
                         </div>
                     </>}
-                    <Button disabled={textRemainsToFill <= 0} 
+                    <Button disabled={newTweetIsLoading || textRemainsToFill <= 0 || text.length === 0} 
                     onClick={handleOnSendTweetClick}
                     variant='contained' 
-                    color='primary'>Твитнуть</Button>
+                    color='primary'>{
+                        newTweetIsLoading ? 
+                        'Отправление' : 'Твитнуть'
+                    }</Button>
                 </div>
             </div>
         </div>

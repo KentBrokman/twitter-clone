@@ -16,6 +16,8 @@ import { Avatar } from "@material-ui/core";
 import { useHomeStyles } from "../pages/Home/HomeStyles";
 import { TweetType } from "../store/ducks/tweets/contracts/stateTypes";
 import { useHistory } from "react-router-dom";
+import { formatDate } from "../utils/formatDate";
+import { ThreeDotsMenu } from "./ThreeDotsMenu";
 
 
 interface TweetProps {
@@ -24,10 +26,11 @@ interface TweetProps {
 }
 
 export const Tweet: React.FC<TweetProps> = ({ classes, tweet }) => {
-    const { _id, text, user } = tweet
+    const { _id, text, user, createdAt } = tweet
     const history = useHistory()
 
     const handleOnTwitClick = () => {
+        console.log('handleOnTwitClick')
         history.push(`/home/tweet/${_id}`)
     }
     return (
@@ -40,15 +43,22 @@ export const Tweet: React.FC<TweetProps> = ({ classes, tweet }) => {
                         src={user.avatarUrl} />
                 </div>
                 <div style={{ marginTop: '-3px' }}>
-                    <Typography>
-                        <b>{user.fullName}</b>&nbsp;
-                        <span className={classes.tweetUserName}>{user.shortName}</span>&nbsp;
-                        <span className={classes.tweetUserName}>·</span>&nbsp;
-                        <span className={classes.tweetUserName}>1 ч</span>
-                    </Typography>
-                    <Typography variant='body1' gutterBottom>
-                        {text}
-                    </Typography>
+                    <div className={classes.tweetHeader}>
+                        <div>
+                            <Typography>
+                                <b>{user.fullName}</b>&nbsp;
+                                <span className={classes.tweetUserName}>{user.shortName}</span>&nbsp;
+                                <span className={classes.tweetUserName}>·</span>&nbsp;
+                                <span className={classes.tweetUserName}>{formatDate(new Date(createdAt))}</span>
+                            </Typography>
+                            <Typography variant='body1' gutterBottom>
+                                {text}
+                            </Typography>
+                        </div>
+                        <div>
+                            <ThreeDotsMenu />
+                        </div>
+                    </div>
                     <div className={classes.tweetFooter}>
                         <div>
                             <IconButton>
