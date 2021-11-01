@@ -24,7 +24,7 @@ type LoginFormProps = {
 
 const LoginFormSchema = yup.object({
     email: yup.string().email().required('Введите почту'),
-    password: yup.string().min(6, 'Минимальная длина пароля 6 символов').required('Введите пароль'),
+    password: yup.string().required('Введите пароль').min(6, 'Минимальная длина пароля 6 символов'),
 }).required()
 
 export const LoginModal: React.FC<PropsType> = ({ onClose, open }): React.ReactElement | null => {
@@ -34,8 +34,7 @@ export const LoginModal: React.FC<PropsType> = ({ onClose, open }): React.ReactE
         resolver: yupResolver(LoginFormSchema)
     });
     const onSubmit = (data: LoginFormProps) => {
-        debugger
-        console.log(errors)
+        console.log(data)
     };
 
     if (!open) {
@@ -55,8 +54,11 @@ export const LoginModal: React.FC<PropsType> = ({ onClose, open }): React.ReactE
                             name="email"
                             control={control}
                             defaultValue=""
-                            render={({ field }) => <TextField
-                                {...field}
+                            render={({ field: { onChange, value }, fieldState: { error } }) => <TextField
+                                value={value}
+                                onChange={onChange}
+                                error={!!error}
+                                helperText={error ? error.message : null}
                                 className={classes.loginSideField}
                                 id="email"
                                 label="Email"
@@ -71,8 +73,11 @@ export const LoginModal: React.FC<PropsType> = ({ onClose, open }): React.ReactE
                             name="password"
                             control={control}
                             defaultValue=""
-                            render={({ field }) => <TextField
-                                {...field}
+                            render={({ field: { onChange, value }, fieldState: { error } }) => <TextField
+                                value={value}
+                                onChange={onChange}
+                                error={!!error}
+                                helperText={error ? error.message : null}
                                 className={classes.loginSideField}
                                 id="password"
                                 label="Password"
