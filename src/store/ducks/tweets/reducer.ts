@@ -10,7 +10,8 @@ import { TweetsState } from "./contracts/stateTypes";
 const initialState: TweetsState = {
     items: [],
     loadingState: LoadingState.NEVER,
-    newTweetLoadingState: LoadingState.NEVER
+    newTweetLoadingState: LoadingState.NEVER,
+    deleteTweetLoadingState: LoadingState.NEVER
 }
 
 
@@ -37,6 +38,16 @@ export const tweetsReducer = produce((draft: Draft<TweetsState>, action: TweetsA
         }
         case TweetsActionsType.SET_NEW_TWEET_LOADING: {
             draft.newTweetLoadingState = LoadingState.LOADING
+            break
+        }
+        case TweetsActionsType.SET_TWEET_DELETED: {
+            
+            draft.items = draft.items.filter(item => item._id !== action.payload)
+            draft.deleteTweetLoadingState = LoadingState.NEVER
+            break
+        }
+        case TweetsActionsType.SET_TWEET_DELETED_LOADING: {
+            draft.deleteTweetLoadingState = LoadingState.LOADING
             break
         }
     }

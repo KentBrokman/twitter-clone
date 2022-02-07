@@ -3,13 +3,13 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from '@material-ui/icons/Close';
-import { useStylesSignIn } from "../pages/SignIn/SignIn";
+import { useSignInStyles } from "../styles/SignInStyles";
 
 
 interface ModalBlockProps {
     title?: string;
     children: React.ReactNode;
-    classes?: ReturnType<typeof useStylesSignIn>;
+    classes?: ReturnType<typeof useSignInStyles>;
     visible?: boolean;
     onClose: () => void;
   }

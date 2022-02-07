@@ -5,16 +5,16 @@ import Paper from "@material-ui/core/Paper"
 import Typography from "@material-ui/core/Typography"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { useHomeStyles } from "../pages/Home/HomeStyles"
+import { useHomeStyles } from "../styles/HomeStyles"
 import { selectIsTagsLoaded, selectTags } from "../store/ducks/tags/selectors"
 import { LoadingState } from "../store/types"
-
-interface TagsProps {
-    classes: ReturnType<typeof useHomeStyles>
-}
+import { useRightSideStyles } from "../styles/RightSideStyles"
 
 
-export const Tags: React.FC<TagsProps> = ({classes}): React.ReactElement | null => {
+export const Tags: React.FC = (): React.ReactElement | null => {
+    // styles
+    const rightSideClasses = useRightSideStyles()
+    //
     const tags = useSelector(selectTags)
     const isLoaded = useSelector(selectIsTagsLoaded)
     
@@ -25,15 +25,15 @@ export const Tags: React.FC<TagsProps> = ({classes}): React.ReactElement | null 
     
     
     return (
-        <Paper className={classes.rightSideBlock}>
-            <Paper variant="outlined" className={classes.rightSideBlockHeader}>
+        <Paper className={rightSideClasses.rightSideBlock}>
+            <Paper variant="outlined" className={rightSideClasses.rightSideBlockHeader}>
                 <b>Актуальные темы</b>
             </Paper>
             <List>
                 {tagsItems.map(item => {
                     return (
                     <>
-                        <ListItem className={classes.rightSideBlockItem}>
+                        <ListItem className={rightSideClasses.rightSideBlockItem}>
                             <Link to={`/home/search?q=${item.name}`}>
                                 <ListItemText 
                                     primary={item.name}

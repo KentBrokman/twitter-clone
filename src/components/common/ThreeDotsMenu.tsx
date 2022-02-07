@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { SetStateAction, Dispatch } from 'react';
+
 import IconButton from '@material-ui/core/IconButton';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
+import { deleteTweet, setTweetDeletedLoading } from '../../store/ducks/tweets/actionCreators';
 
 
 const useStyles = makeStyles({
@@ -20,7 +23,13 @@ const useStyles = makeStyles({
 
 const ITEM_HEIGHT = 48;
 
-export const ThreeDotsMenu: React.FC = () => {
+interface ThreeDotsMenuProps {
+  id: string;
+  setDeleting: Dispatch<SetStateAction<boolean>>
+}
+
+export const ThreeDotsMenu: React.FC<ThreeDotsMenuProps> = ({id, setDeleting}) => {
+  const dispatch = useDispatch()
   const classes = useStyles()
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -35,9 +44,18 @@ export const ThreeDotsMenu: React.FC = () => {
     console.log('handleClose')
     setAnchorEl(null);
   };
+  const handleDelete = (event: React.MouseEvent<HTMLElement>) => {
+    event.stopPropagation()
+    setDeleting(true)
+
+    dispatch(setTweetDeletedLoading())
+    dispatch(deleteTweet(id))
+    
+    setAnchorEl(null);
+  };
 
   return (
-    <div style={{ boxShadow: '0px 0px 6px 5px #EDEBE3;' }}>
+    <div>
       <IconButton
         aria-label="more"
         aria-controls="long-menu"
@@ -62,12 +80,12 @@ export const ThreeDotsMenu: React.FC = () => {
           },
         }}
       >
-        <MenuItem onClick={handleClose} classes={{ root: classes.listRed }}>
+        <MenuItem onClick={handleDelete} classes={{ root: classes.listRed }}>
           Удалить
         </MenuItem>
-        <MenuItem onClick={handleClose}>
+        {/* <MenuItem onClick={handleClose}>
           Редактировать
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </div>
   );
