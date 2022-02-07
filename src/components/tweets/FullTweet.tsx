@@ -18,15 +18,19 @@ import format from 'date-fns/format'
 import ruLang from 'date-fns/locale/ru'
 import { TweetImages } from "./TweetImages"
 import { useTweetsStyles } from "../../styles/TweetsStyles"
+import { formatDate } from "../../utils/formatDate"
+import { makeStyles } from "@material-ui/styles";
 
 
 interface PropsType {
     classes: ReturnType<typeof useHomeStyles>
 }
 
+
+
 export const FullTweet: React.FC<PropsType> = (): React.ReactElement | null => {
     const tweetsClasses = useTweetsStyles()
-    
+
     const params: { id?: string } = useParams()
     const dispatch = useDispatch()
     const tweet = useSelector(selectTweet)
@@ -44,7 +48,7 @@ export const FullTweet: React.FC<PropsType> = (): React.ReactElement | null => {
     if (isLoading) return (
         <div className={tweetsClasses.tweetsLoading} ><CircularProgress /></div>
     )
-    
+
     if (tweet) return (
 
         <Paper className={tweetsClasses.fullTweet} variant='outlined'>
@@ -53,44 +57,21 @@ export const FullTweet: React.FC<PropsType> = (): React.ReactElement | null => {
                 <Avatar alt="User avatar"
                     className={tweetsClasses.tweetAvatar}
                     src={tweet.user.images?.profilePhoto?.cloudinary_url} />
-                
+
             </div>
             <div style={{ marginTop: '-3px' }}>
                 <Typography>
                     <b>{tweet.user.fullName}</b>&nbsp;
                     <span className={tweetsClasses.tweetUserName}>{tweet.user.fullName}</span>&nbsp;
                     <span className={tweetsClasses.tweetUserName}>·</span>&nbsp;
-                    <span className={tweetsClasses.tweetUserName}>{format(new Date(tweet.createdAt), 'Pp', { locale: ruLang })}</span>
+                    <span className={tweetsClasses.tweetUserName}>{formatDate(new Date(tweet.createdAt))}</span>
                 </Typography>
                 <Typography variant='body1' gutterBottom>
                     {tweet.text}
                 </Typography>
-                <TweetImages images={tweet.images}/>
+                <TweetImages images={tweet.images} />
                 <div className={tweetsClasses.tweetFooter}>
-                    <div>
-                        <IconButton>
-                            <CommentIcon style={{ fontSize: '20px' }} />
-                        </IconButton>
-                        <span>12</span>
-                    </div>
-                    <div>
-                        <IconButton>
-                            <RepeatIcon style={{ fontSize: '20px' }} />
-                        </IconButton>
-                        <span>12</span>
-                    </div>
-                    <div>
-                        <IconButton>
-                            <FavoriteBorderIcon style={{ fontSize: '20px' }} />
-                        </IconButton>
-                        <span>12</span>
-                    </div>
-                    <div>
-                        <IconButton>
-                            <ReplyIcon style={{ fontSize: '20px' }} />
-                        </IconButton>
-                        <span>12</span>
-                    </div>
+                    
                 </div>
             </div>
 
@@ -98,6 +79,6 @@ export const FullTweet: React.FC<PropsType> = (): React.ReactElement | null => {
 
 
     )
-    
+
     return null
 }

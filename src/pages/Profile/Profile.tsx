@@ -168,10 +168,10 @@ export const Profile: React.FC = () => {
                             tweet={tweet} />))}
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <TestComponent />
+                    Медиа
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    Item Three
+                    Нравится
                 </TabPanel>
             </div>
             {visibleModal === 'open' &&
